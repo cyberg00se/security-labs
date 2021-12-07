@@ -1,5 +1,7 @@
 import Lab3.models.Account;
 import Lab3.models.GameResult;
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -7,6 +9,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.Random;
 
 public class CasinoConnection {
@@ -62,6 +65,10 @@ public class CasinoConnection {
                     .GET()
                     .build();
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if(response.body().contains("Yay"))
+                acc.setMoney(acc.getMoney()+bet);
+            else
+                acc.setMoney(acc.getMoney()-bet);
             gameResult = GameResult.fromJSON(response.body());
         }
         catch (Exception e) {

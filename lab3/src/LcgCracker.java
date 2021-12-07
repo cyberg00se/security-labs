@@ -31,4 +31,13 @@ public class LcgCracker {
         int[] results = {a.intValue(), c.intValue()};
         return results;
     }
+
+    public static int getNext(int last, int[] params) {
+        BigInteger a = new BigInteger(String.valueOf(params[0]));
+        BigInteger c = new BigInteger(String.valueOf(params[1]));
+        BigInteger m = BigInteger.TWO.pow(32);
+
+        int next = (new BigInteger(String.valueOf(last)).multiply(a).add(c).mod(m)).intValue();
+        return next;
+    }
 }
