@@ -21,12 +21,12 @@ public class Start {
         System.out.println(GameResult.toJSON(testRes));
         int seed = Integer.parseInt(testRes.getRealNumber());
 
-        while (playerAcc.getMoney() < 100000) {
+        do {
             int number = LcgCracker.getNext(seed, params);
             GameResult tempRes = CasinoConnection.playLCG(playerAcc, playerAcc.getMoney(), number);
             System.out.println(GameResult.toJSON(tempRes));
             seed = number;
-        }
+        } while (playerAcc.getMoney() < 1000000);
 
         System.out.println("Yaaay");
     }

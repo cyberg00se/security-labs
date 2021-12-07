@@ -65,11 +65,8 @@ public class CasinoConnection {
                     .GET()
                     .build();
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if(response.body().contains("Yay"))
-                acc.setMoney(acc.getMoney()+bet);
-            else
-                acc.setMoney(acc.getMoney()-bet);
             gameResult = GameResult.fromJSON(response.body());
+            acc.setMoney(gameResult.getAccount().getMoney());
         }
         catch (Exception e) {
             e.printStackTrace();

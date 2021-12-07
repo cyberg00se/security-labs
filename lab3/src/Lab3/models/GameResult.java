@@ -4,6 +4,7 @@ import com.google.gson.*;
 public class GameResult {
     private String message;
     private String realNumber;
+    private Account account;
 
     public String getMessage() {
         return message;
@@ -16,6 +17,12 @@ public class GameResult {
     }
     public void setRealNumber(String realNumber) {
         this.realNumber = realNumber;
+    }
+    public Account getAccount() {
+        return account;
+    }
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public static GameResult fromJSON(String jsonRes) {
