@@ -1,11 +1,10 @@
+import Lab3.crackers.LcgCracker;
 import Lab3.models.Account;
 import Lab3.models.GameResult;
 
-import java.math.BigInteger;
-
 public class Start {
     public static void main(String[] args) {
-        int[] LcgCracked = LcgCracker.Start();
+        int[] LcgCracked = crackLCG();
         System.out.println(String.format("LCG cracker results:\na = %d\nc = %d", LcgCracked[0], LcgCracked[1]));
 
         //LCG cracker results:
@@ -14,16 +13,26 @@ public class Start {
         playLCG(LcgCracked);
     }
 
+    private static int[] crackLCG() {
+        System.out.println("\nStarted cracking LCG mode");
+        Account crackerAcc = CasinoConnection.createAcc();
+        GameResult[] crackLCGResults = new GameResult[3];
+        for(int i = 0 ; i < 3; i++) {
+            GameResult tempRes = CasinoConnection.play(crackerAcc, 1, i, "Lcg");
+            crackLCGResults[i] = tempRes;
+        }
+        return LcgCracker.Start(crackLCGResults);
+    }
     private static void playLCG(int[] params) {
         System.out.println("\nStarted playing in LCG mode");
         Account playerAcc = CasinoConnection.createAcc();
-        GameResult testRes = CasinoConnection.playLCG(playerAcc, 1, 0);
+        GameResult testRes = CasinoConnection.play(playerAcc, 1, 0, "Lcg");
         System.out.println(GameResult.toJSON(testRes));
         int seed = Integer.parseInt(testRes.getRealNumber());
 
         do {
             int number = LcgCracker.getNext(seed, params);
-            GameResult tempRes = CasinoConnection.playLCG(playerAcc, playerAcc.getMoney(), number);
+            GameResult tempRes = CasinoConnection.play(playerAcc, playerAcc.getMoney(), number, "Lcg");
             System.out.println(GameResult.toJSON(tempRes));
             seed = number;
         } while (playerAcc.getMoney() < 1000000);

@@ -49,12 +49,12 @@ public class CasinoConnection {
         return account;
     }
 
-    public static GameResult playLCG(Account acc, int bet, int number) {
+    public static GameResult play(Account acc, int bet, int number, String mode) {
         String query = String.format("id=%s&bet=%s&number=%s",
                 URLEncoder.encode(acc.getId(), StandardCharsets.UTF_8),
                 URLEncoder.encode(String.valueOf(bet), StandardCharsets.UTF_8),
                 URLEncoder.encode(String.valueOf(number), StandardCharsets.UTF_8));
-        String requestURL = baseURL + "playLcg?" + query;
+        String requestURL = baseURL + "play" + mode + "?" + query;
 
        GameResult gameResult = new GameResult();
 

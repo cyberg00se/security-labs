@@ -1,3 +1,5 @@
+package Lab3.crackers;
+
 import Lab3.models.Account;
 import Lab3.models.GameResult;
 
@@ -8,10 +10,9 @@ import java.util.List;
 public class LcgCracker {
     private static List<BigInteger> numbers = new LinkedList<>();
 
-    public static int[] Start() {
-        Account crackerAcc = CasinoConnection.createAcc();
+    public static int[] Start(GameResult[] gameResults) {
         for(int i = 0 ; i < 3; i++) {
-            GameResult tempRes = CasinoConnection.playLCG(crackerAcc, 1, i);
+            GameResult tempRes = gameResults[i];
             System.out.println(GameResult.toJSON(tempRes));
             BigInteger tempNumber = new BigInteger(tempRes.getRealNumber());
             if(tempNumber.signum() == -1) {
