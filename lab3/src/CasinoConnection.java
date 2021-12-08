@@ -49,7 +49,7 @@ public class CasinoConnection {
         return account;
     }
 
-    public static GameResult play(Account acc, int bet, int number, String mode) {
+    public static GameResult play(Account acc, int bet, long number, String mode) {
         String query = String.format("id=%s&bet=%s&number=%s",
                 URLEncoder.encode(acc.getId(), StandardCharsets.UTF_8),
                 URLEncoder.encode(String.valueOf(bet), StandardCharsets.UTF_8),
@@ -64,7 +64,9 @@ public class CasinoConnection {
                             URI.create(requestURL))
                     .GET()
                     .build();
+            //System.out.println(request.uri());
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.body());
             gameResult = GameResult.fromJSON(response.body());
             acc.setMoney(gameResult.getAccount().getMoney());
         }

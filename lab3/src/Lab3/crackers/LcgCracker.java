@@ -13,7 +13,6 @@ public class LcgCracker {
     public static int[] Start(GameResult[] gameResults) {
         for(int i = 0 ; i < 3; i++) {
             GameResult tempRes = gameResults[i];
-            System.out.println(GameResult.toJSON(tempRes));
             BigInteger tempNumber = new BigInteger(tempRes.getRealNumber());
             if(tempNumber.signum() == -1) {
                 tempNumber = tempNumber.add(BigInteger.ONE.shiftLeft(32));
