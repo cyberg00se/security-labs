@@ -30,5 +30,5 @@ bcrypt может быть слишком медленным для взломщ
 - длина от 10 до 25
 - наличие хотя бы по одной штуке цифр, строчных букв, прописных букв и символов из набора !@#$%^&*
 
-[код тут](https://github.com/cyberg00se/chirpy-app-backend/src/api/user/user.middleware.js)
-[и тут](https://github.com/cyberg00se/chirpy-app-backend/src/api/auth/auth.middleware.js)
+[код тут](https://github.com/cyberg00se/chirpy-app/blob/44f9c3cb116a85262a7a3fcfa8f64129ec60ffbd/chirpy-app-backend/src/api/user/user.middleware.js)
+[и тут](https://github.com/cyberg00se/chirpy-app/blob/44f9c3cb116a85262a7a3fcfa8f64129ec60ffbd/chirpy-app-backend/src/api/auth/auth.middleware.js)
