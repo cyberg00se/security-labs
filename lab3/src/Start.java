@@ -15,10 +15,8 @@ public class Start {
         //c = 1013904223
         playLCG(LcgCracked);
 
-        playMtCheating();
-        //long mtSeed = crackMt();
-        //System.out.println("Seed: " + mtSeed);
-        //playMt(mtSeed);
+        //playMtCheating();
+        playMt();
     }
 
     private static int[] crackLCG() {
@@ -61,22 +59,31 @@ public class Start {
         System.out.println("Yaaay");
     }
 
-    /*private static long crackMt() {
-        Account crackerAcc = CasinoConnection.createAcc();
+    private static MT19937 crackMt(Account crackerAcc) {
+        System.out.println("\nStarted cracking MT mode");
         GameResult tempRes = CasinoConnection.play(crackerAcc, 1, 0, "Mt");
-        return Integer.toUnsignedLong((int)Long.parseLong(tempRes.getRealNumber()));
-    }
-    private static void playMt(long startSeed) {
-        System.out.println("\nStarted playing in MT mode");
-        Account playerAcc = CasinoConnection.createAcc();
-        GameResult firstRes = CasinoConnection.play(playerAcc, 1, startSeed, "Mt");
+        long currentNumber = Integer.toUnsignedLong((int)Long.parseLong(tempRes.getRealNumber()));
+        System.out.println("Current number: " + currentNumber);
 
-        MT19937 twister = new MT19937((int)startSeed);
+        long seed = System.currentTimeMillis()/1000 - 5;
+        int i=0;
+        MT19937 twister = new MT19937((int)seed);
+        while (Integer.toUnsignedLong(twister.getNext()) != currentNumber && i < 10) {
+            twister = new MT19937((int)++seed);
+            i++;
+        }
+        System.out.println("Current seed: " + currentNumber);
+        return twister;
+    }
+    private static void playMt() {
+        Account playerAcc = CasinoConnection.createAcc();
+        MT19937 twister = crackMt(playerAcc);
+
+        System.out.println("\nStarted playing in MT mode");
         do {
-            long number = twister.getNext();
-            GameResult tempRes = CasinoConnection.play(playerAcc, 1, number, "Mt");
-            System.out.println(GameResult.toJSON(tempRes));
+            long number = Integer.toUnsignedLong(twister.getNext());
+            GameResult tempRes = CasinoConnection.play(playerAcc, playerAcc.getMoney(), number, "Mt");
         } while (playerAcc.getMoney() < 1000000);
         System.out.println("Yaaay");
-    }*/
+    }
 }

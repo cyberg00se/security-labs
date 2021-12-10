@@ -32,7 +32,7 @@ public class CasinoConnection {
                     .build();
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
             while(response.body().contains("error")) {
-                id = String.valueOf(rnd.nextInt(1000));
+                id = String.valueOf(rnd.nextInt(5000));
                 query = String.format("id=%s",
                         URLEncoder.encode(id, StandardCharsets.UTF_8));
                 request = HttpRequest.newBuilder(
