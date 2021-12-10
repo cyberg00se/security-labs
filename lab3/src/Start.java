@@ -17,6 +17,8 @@ public class Start {
 
         //playMtCheating();
         playMt();
+
+        playBetterMt();
     }
 
     private static int[] crackLCG() {
@@ -72,7 +74,7 @@ public class Start {
             twister = new MT19937((int)++seed);
             i++;
         }
-        System.out.println("Current seed: " + currentNumber);
+        System.out.println("Current seed: " + seed);
         return twister;
     }
     private static void playMt() {
@@ -83,6 +85,29 @@ public class Start {
         do {
             long number = Integer.toUnsignedLong(twister.getNext());
             GameResult tempRes = CasinoConnection.play(playerAcc, playerAcc.getMoney(), number, "Mt");
+        } while (playerAcc.getMoney() < 1000000);
+        System.out.println("Yaaay");
+    }
+    private static MT19937 crackBetterMt(Account crackerAcc) {
+        System.out.println("\nStarted cracking BetterMT mode");
+        int[] numbersMT = new int[624];
+        for (int i=0; i< numbersMT.length; i++) {
+            GameResult tempRes = CasinoConnection.play(crackerAcc, 1, 0, "BetterMt");
+            numbersMT[i] = (int)(Long.parseLong(tempRes.getRealNumber()) & 0xFFFFFFFFL);
+        }
+
+        int[] untemperedNumbersMT = MT19937.untemperNumbers(numbersMT);
+        MT19937 twister = new MT19937(untemperedNumbersMT);
+        return twister;
+    }
+    private static void playBetterMt() {
+        Account playerAcc = CasinoConnection.createAcc();
+        MT19937 twister = crackBetterMt(playerAcc);
+
+        System.out.println("\nStarted playing in BetterMT mode");
+        do {
+            long number = Integer.toUnsignedLong(twister.getNext());
+            GameResult tempRes = CasinoConnection.play(playerAcc, playerAcc.getMoney(), number, "BetterMt");
         } while (playerAcc.getMoney() < 1000000);
         System.out.println("Yaaay");
     }

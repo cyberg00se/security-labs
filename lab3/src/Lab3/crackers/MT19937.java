@@ -20,6 +20,10 @@ public class MT19937 {
     private int[] MT;
     private int index = n+1;
 
+    public MT19937(int[] numbers) {
+        MT = numbers;
+        index = n;
+    }
     public MT19937(int seed) {
         MT = new int[n];
         long longSeed = seed;
@@ -62,12 +66,42 @@ public class MT19937 {
         MT[n-1] = MT[m-1]^xA;
     }
 
-    private int temper(int input) {
+    private static int temper(int input) {
         int y = input;
         y = y^(y >>> u);
         y = y^((y << s)&b);
         y = y^((y << t)&c);
         y = y^(y >>> l);
         return y;
+    }
+
+    public static int[] untemperNumbers(int[] tempered) {
+        int[] untempered = new int[n];
+        for(int i=0; i<n; i++) {
+            untempered[i] = untemper(tempered[i]);
+        }
+        return untempered;
+    }
+    private static int untemper(int input) {
+        int y = input;
+        y = unShiftRight(y, l);
+        y = unShiftLeft(y, t, c);
+        y = unShiftLeft(y, s, b);
+        y = unShiftRight(y, u);
+        return y;
+    }
+    private static int unShiftLeft(int input, int shift, int mask) {
+        int result = input;
+        for (int i=0; i<32; i++) {
+            result = input^((result << shift) & mask);
+        }
+        return result;
+    }
+    private static int unShiftRight(int input, int shift) {
+        int result = input;
+        for (int i=0; i<32; i++) {
+            result = input^(result >>> shift);
+        }
+        return result;
     }
 }
